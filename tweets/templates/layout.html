@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+  
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Tweets</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!-- Commented menu items, you can enable them if needed -->
+                </ul>
+                <ul class="ms-auto">
+                    <!-- Conditional buttons based on user authentication -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Button Container for Authentication or Tweet Page -->
+    <div class="container mt-3">
+      
+        
+                <a class="btn btn-primary mt-3" href="{% url 'tweet_list' %}">Tweet Page</a>
+          
+            {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col-2">
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger mt-3">Logout</button>
+                    </form>
+                </div>
+              </div>
+            {% else %}
+          
+                    <a class="btn btn-success me-2 mt-3" href="{% url 'register' %}">Register</a>
+               
+                    <a class="btn btn-warning mt-3" href="{% url 'login' %}">Login</a>
+          
+              
+            {% endif %}
+        </div>
+  
+
+    <!-- Content Section -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer Section -->
+    {% block footer %}
+    {% endblock %}
+
+    <!-- Bootstrap JS (Required for navbar toggle functionality) -->
+   
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Tweets List
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-4">All Tweets</h1>
+
+    <div class="container mt-4">
+        <a class="btn btn-primary mb-4" href="{% url 'tweet_create' %}">Create Tweet</a>
+        <div class="row">
+            {% for tweet in tweets %}
+                <div class="col-md-4 mb-4">
+                    <div class="card" style="width: 18rem; height: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                        {% if tweet.photo %}
+                            <img src="{{ tweet.photo.url }}" class="card-img-top" alt="Tweet Image" style="height: 12rem; object-fit: cover;">
+                        {% else %}
+                            <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="No Image" style="height: 12rem; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                           <h5 class="card-title">{{ tweet.name.username }}</h5>
+
+                            <p class="card-text">{{ tweet.text }}</p>
+                            {% if tweet.name == user %}
+
+                                <div class="d-flex justify-content-between">
+                                    <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="text-center mt-4">
+                    <p>No tweets available. Be the first to <a href="{% url 'tweet_create' %}">create one</a>.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
